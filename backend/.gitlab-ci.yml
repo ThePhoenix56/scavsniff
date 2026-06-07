@@ -1,0 +1,57 @@
+image: node:20
+
+stages:
+  - install
+  - lint
+  - test
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  PORT: "3000"
+  TEST_LOGIN_EMAIL: "test@test.com"
+  TEST_LOGIN_PASSWORD: "testtest"
+
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+
+install_dependencies:
+  stage: install
+  script:
+    - npm ci --no-audit --prefer-offline
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 day
+
+lint_backend:
+  stage: lint
+  needs:
+    - job: install_dependencies
+      artifacts: true
+  script:
+    - npm run lint
+
+unit_test:
+  stage: test
+  needs:
+    - job: install_dependencies
+      artifacts: true
+  script:
+    - npm run test:unit
+
+login_smoke_test:
+  stage: test
+  needs:
+    - job: unit_test
+    - job: install_dependencies
+      artifacts: true
+    - job: lint_backend
+  before_script:
+    - apt-get update
+    - apt-get install -y curl
+  script:
+    - npm test
