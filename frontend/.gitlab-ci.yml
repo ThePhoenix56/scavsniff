@@ -1,0 +1,46 @@
+image: node:20
+
+stages:
+  - install
+  - lint
+  - build
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+# cache dependencies to speed up pipeline runs
+cache:
+  key:
+    files:
+      - package-lock.json
+  paths:
+    - .npm/
+
+install_dependencies:
+  stage: install
+  script:
+    - npm ci --prefer-offline
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 day
+
+lint:
+  stage: lint
+  needs:
+    - job: install_dependencies
+      artifacts: true
+  script:
+    - npm run lint
+
+build:
+  stage: build
+  needs:
+    - job: install_dependencies
+      artifacts: true
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
