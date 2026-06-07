@@ -1,0 +1,40 @@
+{
+  "name": "scavsniff-backend",
+  "version": "1.0.0",
+  "description": "g",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "lint": "eslint src tests",
+    "test:unit": "node --test tests/unit/encryptionUtils.test.js",
+    "test": "node tests/login-test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.22.3",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.7",
+    "openai": "^6.37.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@lnu/eslint-config": "^2.0.9",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "eslint": "^10.3.0",
+    "eslint-plugin-jsdoc": "^62.9.0",
+    "eslint-plugin-n": "^18.0.0",
+    "eslint-plugin-regexp": "^3.1.0",
+    "eslint-plugin-security": "^4.0.0",
+    "globals": "^17.6.0"
+  }
+}
